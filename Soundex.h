@@ -1,34 +1,47 @@
 #ifndef SOUNDEX_H
 #define SOUNDEX_H
 
+#include "Soundex.h"
 #include <ctype.h>
 #include <string.h>
 
-// This function returns the Soundex code for a given character.
 char getSoundexCode(char c) {
-    static const char* codes = "01230120022455012623010202";
+    static const char soundexTable[26] = {'0', '1', '2', '3', '0', '1', '2', '0', '0', '2', '2', '4', '5','5', '0', '1', '2', '6', '2', '3', '0', '1', '0', '2', '0', '2'
+    };
     c = toupper(c);
-    return (c >= 'A' && c <= 'Z') ? codes[c - 'A'] : '0';
+    if (!isalpha(c))
+    {      
+         return '0';
+    }
+     return soundexTable[c - 'A'];
 }
 
-// This function generates the Soundex code for the given name.
-void generateSoundex(const char *name, char *soundex) {
-    soundex[0] = toupper(name[0]);
-    char lastCode = getSoundexCode(soundex[0]);
-    int sIndex = 1;
-
-    for (int i = 1; name[i] != '\0' && sIndex < 4; i++) {
-        char code = getSoundexCode(name[i]);
-        sIndex += (code != '0' && code != lastCode);
-        soundex[sIndex - 1] = (sIndex <= 4 && code != '0' && code != lastCode) ? code : soundex[sIndex - 1];
-        lastCode = code;
-    }
-
-    while (sIndex < 4) {
-        soundex[sIndex++] = '0';
-    }
-
+void initializeSoundex(char *soundex, char firstCharacter) {
+    soundex[0] = toupper(firstCharacter);
+    soundex[1] = soundex[2] = soundex[3] = '0';
     soundex[4] = '\0';
+}
+
+int shouldAddToSoundex(char code, char *soundex, int sIndex) {
+    return sIndex < 4 && code != '0' && code != soundex[sIndex - 1];
+}
+
+void processCharacter(const char *name, char *soundex, int *sIndex, int i) {
+    char code = getSoundexCode(name[i]);
+    if (shouldAddToSoundex(code, soundex, *sIndex)) {
+        soundex[*sIndex] = code;
+        (*sIndex)++;
+    }
+}
+
+
+void generateSoundex(const char *name, char *soundex) {
+    initializeSoundex(soundex, name[0]);
+    int sIndex = 1;
+    int len = strlen(name);
+    for (int i = 1; i < len; i++) {
+        processCharacter(name, soundex, &sIndex, i);
+    }
 }
 
 #endif // SOUNDEX_H
