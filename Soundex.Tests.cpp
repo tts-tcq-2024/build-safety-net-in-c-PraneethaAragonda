@@ -1,142 +1,53 @@
 #include <gtest/gtest.h>
 #include "Soundex.h"
 
-// Helper function to compare generated Soundex with expected output
-
-void TestSoundex(const char* name, const char* expected) {
-    char soundex[5];
-    generateSoundex(name, soundex);
-    EXPECT_STREQ(expected, soundex);
+//Append 3 zeros if result contains less than 3 digits
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_1) {
+//AAA
+  char soundex[5];
+  generateSoundex("AX", soundex);
+  ASSERT_STREQ(soundex,"A200");
 }
 
-// Test cases using AAA format
-
-TEST(SoundexTest, HandlesSimpleNames) {
-    // Arrange
-    const char* name = "America";
-    const char* expected = "A562";
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_2) {
+//AAA
+  char soundex[5];
+  generateSoundex("A1CDFe", soundex);
+  ASSERT_STREQ(soundex,"A231");
 }
 
-TEST(SoundexTest, HandlesNamesWithNumbersAndSpecialChars) {
-    // Arrange
-    const char* name = "123praneetha";
-    const char* expected = "P165"; // Only letters are considered
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
+//Test case to ckeck special character
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_3) {
+//AAA
+  char soundex[5];
+  generateSoundex("A[", soundex);
+  ASSERT_STREQ(soundex,"A000");
+}
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_4) {
+ //AAA
+  char soundex[5];
+  generateSoundex("ACGJ", soundex);
+ ASSERT_STREQ(soundex,"A200");
 }
 
-TEST(SoundexTest, HandlesNamesWithSpecialCharsAndDigits) {
-    // Arrange
-    const char* name = "pr@12nee";
-    const char* expected = "P653"; // Special characters and digits are ignored
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_5) {
+ //AAA
+  char soundex[5];
+  generateSoundex("@@BBCCDD", soundex);
+ ASSERT_STREQ(soundex,"@123");
+}
+//Replace all adjacent same digits with one digit
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_6) {
+//AAA
+  char soundex[5];
+  generateSoundex("Abfp", soundex);
+  ASSERT_STREQ(soundex,"A100");
 }
 
-TEST(SoundexTest, HandlesSingleLetterName) {
-    // Arrange
-    const char* name = "A";
-    const char* expected = "A000"; // Single letter name should be padded with zeros
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesShortName) {
-    // Arrange
-    const char* name = "Al";
-    const char* expected = "A040"; // Short name, should be padded with zeros
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesLongerName) {
-    // Arrange
-    const char* name = "Alexander";
-    const char* expected = "A252"; // Longer name, should truncate correctly
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesEmptyInput) {
-    // Arrange
-    const char* name = "";
-    const char* expected = "0000"; // An empty input should be handled gracefully
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesEdgeCases) {
-    // Arrange
-    const char* name = "Arnold";
-    const char* expected = "A653"; // Name with repeating characters that should be ignored
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesSingleLetterMappingToZero) {
-    // Arrange
-    const char* name = "U";
-    const char* expected = "U000"; // Single letter name that maps to '0'
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
-}
-
-TEST(SoundexTest, HandlesLetterMappingToZero) {
-    // Arrange
-    const char* name = "O";
-    const char* expected = "O000"; // Single letter name that maps to '0'
-    
-    // Act
-    char soundex[5];
-    generateSoundex(name, soundex);
-    
-    // Assert
-    EXPECT_STREQ(expected, soundex);
+//two letters with the same number separated by 'h', 'w' or 'y' are coded as a single number
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_7) {
+//AAA
+  char soundex[5];
+  generateSoundex("BShZ", soundex);
+  ASSERT_STREQ(soundex,"B200");
 }
