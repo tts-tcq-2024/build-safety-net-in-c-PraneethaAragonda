@@ -1,132 +1,53 @@
 #include <gtest/gtest.h>
 #include "Soundex.h"
 
-// Helper function to generate Soundex code
-std::string generateSoundexCode(const std::string& name) {
-    char soundex[5];
-    generateSoundex(name.c_str(), soundex);
-    return std::string(soundex);
+//Append 3 zeros if result contains less than 3 digits
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_1) {
+//AAA
+  char soundex[5];
+  generateSoundex("AX", soundex);
+  ASSERT_STREQ(soundex,"A200");
 }
 
-// Test for typical names
-TEST(SoundexTest, Miller) {
-    // Arrange
-    std::string name = "Miller";
-    std::string expectedSoundex = "M460";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_2) {
+//AAA
+  char soundex[5];
+  generateSoundex("A1CDFe", soundex);
+  ASSERT_STREQ(soundex,"A231");
 }
 
-TEST(SoundexTest, America) {
-    // Arrange
-    std::string name = "America";
-    std::string expectedSoundex = "A561";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
+//Test case to ckeck special character
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_3) {
+//AAA
+  char soundex[5];
+  generateSoundex("A[", soundex);
+  ASSERT_STREQ(soundex,"A000");
+}
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_4) {
+ //AAA
+  char soundex[5];
+  generateSoundex("ACGJ", soundex);
+ ASSERT_STREQ(soundex,"A200");
 }
 
-TEST(SoundexTest, Smith) {
-    // Arrange
-    std::string name = "Smith";
-    std::string expectedSoundex = "S530";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_5) {
+ //AAA
+  char soundex[5];
+  generateSoundex("@@BBCCDD", soundex);
+ ASSERT_STREQ(soundex,"@123");
+}
+//Replace all adjacent same digits with one digit
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_6) {
+//AAA
+  char soundex[5];
+  generateSoundex("Abfp", soundex);
+  ASSERT_STREQ(soundex,"A100");
 }
 
-// Test for names with non-alphabetic characters
-TEST(SoundexTest, NameWithNumbers) {
-    // Arrange
-    std::string name = "123Praneetha";
-    std::string expectedSoundex = "P654";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
-}
-
-TEST(SoundexTest, NameWithSpecialChars) {
-    // Arrange
-    std::string name = "pr@12nee";
-    std::string expectedSoundex = "P652";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
-}
-
-// Test for edge cases
-TEST(SoundexTest, SingleCharacter) {
-    // Arrange
-    std::string nameA = "A";
-    std::string expectedSoundexA = "A000";
-    
-    std::string nameB = "B";
-    std::string expectedSoundexB = "B010";
-
-    // Act
-    std::string resultA = generateSoundexCode(nameA);
-    std::string resultB = generateSoundexCode(nameB);
-
-    // Assert
-    EXPECT_EQ(resultA, expectedSoundexA);
-    EXPECT_EQ(resultB, expectedSoundexB);
-}
-
-TEST(SoundexTest, EmptyString) {
-    // Arrange
-    std::string name = "";
-    std::string expectedSoundex = "0000";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
-}
-
-// Test for names with all same characters
-TEST(SoundexTest, RepeatedCharacters) {
-    // Arrange
-    std::string name = "LLLL";
-    std::string expectedSoundex = "L400";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
-}
-
-// Test for names with mixed cases
-TEST(SoundexTest, MixedCase) {
-    // Arrange
-    std::string name = "mIlLeR";
-    std::string expectedSoundex = "M460";
-
-    // Act
-    std::string result = generateSoundexCode(name);
-
-    // Assert
-    EXPECT_EQ(result, expectedSoundex);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+//two letters with the same number separated by 'h', 'w' or 'y' are coded as a single number
+TEST(SoudexTestsuite, ReplacesConsonantsWithAppropriateDigits_7) {
+//AAA
+  char soundex[5];
+  generateSoundex("BShZ", soundex);
+  ASSERT_STREQ(soundex,"B200");
 }
