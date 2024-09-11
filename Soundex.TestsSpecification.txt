@@ -1,0 +1,29 @@
+This document aims to ensure that all functional and non-functional aspects of the system are verified to meet the requirements.
+
+Scenario1 : Test Specification for Soundex Code Generation with Two-Character Input"
+    Steps 
+	   Given "AX" as input,Then "A200" is expected
+	   
+Scenario2 : Test Specification for Soundex Code Generation with Alpha-Numeric
+    Steps 
+	   Given "A1CDFe" as input,Then "A231" is expected
+	   
+Scenario3 : Test Specification for Soundex Generation with Special Characters
+    Steps 
+	   Given "A[" as input,Then "A000" is expected
+	   
+Scenario4 : Test Specification for Soundex Consonant Replacement with Digits
+    Steps 
+	   Given "ACGJ" as input,Then "A200" is expected
+	   
+Scenario5 : Test Specification for Soundex Code Generation for Consecutive Consonants with Special Characters
+    Steps 
+	   Given "@@BBCCDD" as input,Then "@123" is expected
+	   
+Scenario6 : Test Specification for Soundex Adjacent Same Digit Replacement" 
+    Steps 
+	   Given "Abfp" as input,Then "A100" is expected
+	   
+Scenario7: "Soundex Code Generation for Consonants Separated by 'h', 'w', or 'y'"
+    Steps 
+	   Given "BShZ" as input,Then "B200" is expected
